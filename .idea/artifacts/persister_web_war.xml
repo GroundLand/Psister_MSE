@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="persister_web:war">
-    <output-path>$PROJECT_DIR$/persister_web/target</output-path>
-    <root id="archive" name="Psister_MSE.war">
-      <element id="artifact" artifact-name="persister_web:war exploded" />
-    </root>
-  </artifact>
-</component>
