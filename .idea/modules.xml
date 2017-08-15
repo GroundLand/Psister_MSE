@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Psister_MSE.iml" filepath="$PROJECT_DIR$/Psister_MSE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/persister_web/com.cl.iml" filepath="$PROJECT_DIR$/persister_web/com.cl.iml" />
+    </modules>
+  </component>
+</project>
