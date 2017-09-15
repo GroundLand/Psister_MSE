@@ -11,11 +11,11 @@ import java.util.Date;
 @Data
 @Alias("User")
 public class User {
-    private Long userId;
+    private Long id;
     private String name;
     private String password;
     private String permission;
     private int isDelete;
-    private Date createTime;
-    private Date updateTime;
+    private String roleId;
+
 }
