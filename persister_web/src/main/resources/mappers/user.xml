@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper>
+<mapper namespace="com.cl.mapper.UserMapper">
     <resultMap id="user_result_map" type="User">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
         <result property="roleId" column="role_id"/>
         <result property="isDelete" column="is_deleted"/>
+        <result property="email" column="email"/>
        <!-- <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>-->
     </resultMap>
 
     <sql id="all_fields">
-        id,username,password,role_id
+        id,username,password,role_id,email
     </sql>
 
     <insert id="insert" parameterType="User">
-        INSERT INTO t_user(id,username,password,role_id,create_time,update_time) VALUES(#{id},#{username},#{password},#{roleId},noew(),now())
+        INSERT INTO t_user(id,username,password,role_id,email,create_time,update_time) VALUES(#{id},#{username},#{password},#{roleId},#{email},noew(),now())
     </insert>
 
     <select id="findUserByUserName" resultMap="user_result_map">
         select <include refid="all_fields"/> FROM t_user where username=#{username} AND is_deleted =0;
     </select>
+
 </mapper>

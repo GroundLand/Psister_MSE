@@ -17,5 +17,5 @@ public class User {
     private String permission;
     private int isDelete;
     private String roleId;
-
+    private String email;
 }

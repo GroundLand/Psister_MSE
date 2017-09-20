@@ -9,10 +9,12 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+    <context:annotation-config/>
+
     <!--自动扫描bean-->
     <!-- Scan sample packages for Spring annotations -->
     <context:component-scan base-package="com.cl.mapper"/>
-    <context:component-scan base-package="com.cl.security"/>
+    <context:component-scan base-package="com.cl.realm"/>
     <context:component-scan base-package="com.cl.service"/>
     <!--引入外部配置文件-->
     <context:property-placeholder location="classpath:jdbc.properties" />

@@ -4,17 +4,22 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          id="WebApp_ID" version="3.0">
 
-    <listener>
-        <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
-    </listener>
+    <!--加载顺序为 context-param->listener->filter->servlet-->
+
     <!--用于设置context的参数,如果不设置contextConfigLocation则默认的spring配置文件applicationContext.xml放在WEB-INF目录下-->
+    <!--用于向ServletContext提供键值对，即应用程序上下文信息，可写在任意位置-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring-context.xml,classpath:mybatis-config.xml</param-value>
+        <param-value>classpath*:spring-context.xml,classpath:mybatis-config.xml</param-value>
     </context-param>
 
 
+    <listener>
+        <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
+    </listener>
 
+
+    <!--是按照filter-mapping配置节来依次调用doFilter()方法-->
     <filter>
         <filter-name>ShiroFilter</filter-name>
         <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
@@ -24,7 +29,7 @@
             <param-value>true</param-value>
         </init-param>
     </filter>
-
+    <!--filter-mapping必须卸载对应的filter后面-->
     <filter-mapping>
         <filter-name>ShiroFilter</filter-name>
         <url-pattern>/*</url-pattern>

@@ -1,6 +1,6 @@
 package com.cl.realm;
 
-import com.cl.StringUtil;
+import com.cl.util.StringUtil;
 import com.cl.entity.Role;
 import com.cl.entity.User;
 import com.cl.mapper.RoleMapper;

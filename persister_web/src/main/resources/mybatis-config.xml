@@ -26,8 +26,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 
         <!-- 打开PSCache，并且指定每个连接上PSCache的大小 如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。 -->
         <property name="poolPreparedStatements" value="true"/>
-        <property name="maxPoolPreparedStatementPerConnectionSize"
-                  value="50"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="50"/>
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
