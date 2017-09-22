@@ -10,7 +10,7 @@
     <!--用于向ServletContext提供键值对，即应用程序上下文信息，可写在任意位置-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:spring-context.xml,classpath:mybatis-config.xml</param-value>
+        <param-value>classpath*:spring-context.xml</param-value>
     </context-param>
 
 
