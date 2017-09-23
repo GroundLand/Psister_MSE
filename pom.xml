@@ -21,11 +21,15 @@
         <mybatis.version>3.2.8</mybatis.version>
         <mybatis-spring.version>1.2.2</mybatis-spring.version>
         <mybatis-paginator.version>1.2.15</mybatis-paginator.version>
+        <mybatis-ehcahe.version>1.1.0</mybatis-ehcahe.version>
         <org.springframework-version>4.3.9.RELEASE</org.springframework-version>
         <org.slf4j-version>1.7.25</org.slf4j-version>
         <org.apache.shiro-version>1.3.2</org.apache.shiro-version>
         <commons.fileupload>1.3.2</commons.fileupload>
         <guava.version>19.0-rc1</guava.version>
+        <aspectj.version>1.7.4</aspectj.version>
+        <javax-validation>1.1.0.Final</javax-validation>
+        <hibernate-validation>5.2.4.Final</hibernate-validation>
     </properties>
 
     <dependencies>
@@ -61,6 +65,11 @@
             <artifactId>spring-web</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
+        <dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
         <!--end-->
 
         <!--shiro-->
@@ -79,6 +88,12 @@
             <artifactId>shiro-spring</artifactId>
             <version>${org.apache.shiro-version}</version>
         </dependency>
+        <dependency>
+        
+    	<groupId>org.apache.shiro</groupId>
+    	<artifactId>shiro-ehcache</artifactId>
+   		 <version>${org.apache.shiro-version}</version>
+		</dependency>
         <!--end-->
 
         <!--guava-->
@@ -118,6 +133,11 @@
             <artifactId>mybatis-paginator</artifactId>
             <version>${mybatis-paginator.version}</version>
         </dependency>
+        <dependency>
+		    <groupId>org.mybatis.caches</groupId>
+		    <artifactId>mybatis-ehcache</artifactId>
+		    <version>${mybatis-ehcahe.version}</version>
+	  	</dependency>
         <!-- mybatis End -->
 
         <!--文件上传-->
@@ -139,7 +159,61 @@
             <scope>provided</scope>
             <version>3.1.0</version>
         </dependency>
-
+		
+		<dependency>
+			<groupId>org.aspectj</groupId>
+	 		 <artifactId>aspectjrt</artifactId>
+	  		<version>${aspectj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+	  		<artifactId>aspectjweaver</artifactId>
+	  		<version>${aspectj.version}</version>
+		</dependency>
+		
+		
+	  	<!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-cas -->
+		<dependency>
+		    <groupId>org.apache.shiro</groupId>
+		    <artifactId>shiro-cas</artifactId>
+		    <version>1.4.0-RC2</version>
+		</dependency>
+		
+		<!--validation  -->
+		<dependency>
+		    <groupId>javax.validation</groupId>
+		    <artifactId>validation-api</artifactId>
+		    <version>${javax-validation}</version>
+		</dependency>
+	   <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validation}</version>
+        </dependency>
+        
+        <dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.6</version>
+		</dependency>
+		
+		<!--json相关包  -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		    <version>2.9.0.pr3</version>
+		</dependency>
+		<dependency>    
+		    <groupId>net.sf.json-lib</groupId>    
+		    <artifactId>json-lib</artifactId>    
+		    <version>2.4</version>    
+		    <classifier>jdk15</classifier>    
+		</dependency>  
+		<dependency>
+		    <groupId>net.sf.json-lib</groupId>
+		    <artifactId>json-lib-ext-spring</artifactId>
+		    <version>1.0.2</version>
+		</dependency>
     </dependencies>
 
 
