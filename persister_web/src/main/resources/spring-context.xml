@@ -1,66 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:task="http://www.springframework.org/schema/task"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd
-
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
-    <context:annotation-config/>
-
-    <!--引入外部配置文件-->
-    <context:property-placeholder location="classpath:jdbc.properties" />
-
-    <!--支持自动化任务-->
-    <task:annotation-driven/>
-
-    <!--数据源-->
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="driverClassName" value="${jdbc.driverClassName}"/>
-        <property name="url" value="${jdbc.url}"/>
-        <property name="username" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
-        <property name="maxActive" value="10"/>
-        <property name="minIdle" value="1"/>
-
-        <!-- 配置获取连接等待超时的时间 -->
-        <property name="maxWait" value="10000"/>
-
-        <property name="validationQuery" value="SELECT 'x'"/>
-        <property name="testWhileIdle" value="true"/>
-        <property name="testOnBorrow" value="false"/>
-        <property name="testOnReturn" value="false"/>
-
-        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。 -->
-        <property name="poolPreparedStatements" value="true"/>
-        <property name="maxPoolPreparedStatementPerConnectionSize" value="50"/>
-    </bean>
-
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="mapperLocations" value="classpath*:mappers/*.xml" />
-    </bean>
-
-
-    <!--扫描mapper-->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.cl.mapper"/>
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-    </bean>
-
-    <!--事务管理-->
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
-
-    </bean>
-
-
-
-
-
-
-
-
-</beans>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		  http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/context 
+          http://www.springframework.org/schema/context/spring-context-4.0.xsd
+          http://www.springframework.org/schema/mvc 
+          http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+          http://www.springframework.org/schema/tx 
+          http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+          http://www.springframework.org/schema/aop 
+          http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+          http://www.springframework.org/schema/util 
+          http://www.springframework.org/schema/util/spring-util-4.0.xsd
+          http://www.springframework.org/schema/task 
+          http://www.springframework.org/schema/task/spring-task-4.0.xsd
+          ">
+          
+       <context:annotation-config/>
+       <!-- aop -->
+       <aop:aspectj-autoproxy ></aop:aspectj-autoproxy>
+       <!-- 控制所有业务逻辑 -->   
+       <context:component-scan base-package="com.cong">
+       		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+       		<!--除了 控制器 不要  -->
+       </context:component-scan>
+       
+       <!--引用数据源文件  druid.properties-->
+       <context:property-placeholder location="classpath:global.properties"/>
+       
+       <!-- 加载应用属性实例，可通过  @Value("#{APP_PROP['jdbc.driver']}") String jdbcDriver 方式引用 -->
+    	<util:properties id="APP_PROP" location="classpath:global.properties" local-override="true"/>
+    	
+    	
+    	<!-- 计划任务配置，用 @Service @Lazy(false)标注类，用@Scheduled(cron = "0 0 2 * * ?")标注方法 -->
+	    <task:executor id="executor" pool-size="10"/> <task:scheduler id="scheduler" pool-size="10"/>
+	    <task:annotation-driven scheduler="scheduler" executor="executor" proxy-target-class="true"/>
+	    
+       <!-- 配置数据源 -->
+       <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+       		 <property name="url" value="${jdbc.url}"></property>
+       		 <property name="password" value="${jdbc.password}"></property>
+       		 <property name="username" value="${jdbc.username}"></property>
+       		 <property name="driverClassName" value="${jdbc.driver}"></property>
+       		 <property name="filters" value="${filters}"></property>
+       		 <property name="maxActive" value="${maxActive}"></property>
+       		 <property name="initialSize" value="${initialSize}"></property>
+       		 <property name="maxWait" value="${maxWait}"></property>
+       		 <property name="minIdle" value="${minIdle}"></property>
+       		 <property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}"></property>
+       		 <property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}"></property>
+       		 <property name="validationQuery" value="${validationQuery}"></property>
+       		 <property name="testWhileIdle" value="${testWhileIdle}"></property>
+       		 <property name="testOnBorrow" value="${testOnBorrow}"></property>
+       		 <property name="testOnReturn" value="${testOnReturn}"></property>
+       		 <property name="maxOpenPreparedStatements" value="${maxOpenPreparedStatements}"></property>
+       </bean>
+       
+       <!--事务管理器  -->
+       	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+       		<property name="dataSource" ref="dataSource"></property>
+       	</bean>
+       	
+       	<!--开启事务  tx-->
+       	
+       	<tx:annotation-driven transaction-manager="transactionManager"/>
+       		<!-- 配置 JSR303 Bean Validator 定义 -->
+		<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+       	<!--配置mybatis SqlSessionFactoryBean  -->
+       	
+       	
+       	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+       		<property name="dataSource" ref="dataSource"></property>
+       		
+       		<!--指定mybaitis配置文件位置  -->
+       		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+       		
+       		<!-- 指定mapper位置 -->
+       		<property name="mapperLocations" value="classpath:mappers/*.xml"></property> 
+       	</bean>
+       	
+       	<!-- 缓存配置 -->
+		<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+			<property name="configLocation" value="classpath:ehcache.xml" />
+		</bean>
+       	<!-- 扫描所有的mapper 接口 -->
+       	
+       	<!--  <mybatis-spring:scan base-package="com.zking.mapper"></mybaties>  -->
+       	
+       	<bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+       		<property name="basePackage" value="com.cong.dao"></property>
+       	</bean>
+ </beans>
